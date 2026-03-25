@@ -26,13 +26,25 @@ interface RoomData {
   height: number;
   label: string;
   type?: 'elevator' | 'stair' | 'feature' | 'restroom' | 'corridor';
-  corridor?: 'north' | 'south' | 'east' | 'west' | 'center' | 'north-west' | 'north-east' | 'south-west' | 'south-east' | 'east-north' | 'east-south';
+  corridor?: 'north' | 'south' | 'east' | 'west' | 'center' | 'north-west' | 'north-east' | 'south-west' | 'south-east' | 'east-north' | 'east-south' | 'center-west' | 'center-east';
   // 用于路径计算的节点
   pathNode?: { x: number; y: number };
 }
 
 // 楼层配置
 const floorConfig: Record<number, { rooms: string[]; features: string[]; elevators: string[] }> = {
+  1: {
+    rooms: ['FZ101', 'FZ102', 'FZ103', 'FZ104', 'FZ105', 'FZ106', 'FZ107', 'FZ108', 'FZ109', 'FZ110',
+            'FZ111', 'FZ112', 'FZ113', 'FZ114', 'FZ115', 'FZ117', 'FZ118', 'FZ119', 'FZ120', 'FZ121',
+            'FZ122', 'FZ123', 'FZ124', 'FZ125', 'FZ126', 'FZ127', 'FZ128', 'FZ129', 'FZ130', 'FZ131',
+            'FZ132', 'FZ133', 'FZ134', 'FZ135', 'FZ136', 'FZ137', 'FZ138', 'FZ139', 'FZ140', 'FZ141',
+            'FZ142', 'FZ143', 'FZ144', 'FZ145', 'FZ146', 'FZ151', 'FZ152', 'FZ158', 'FZ159', 'FZ160',
+            'FZ161', 'FZ162', 'FZ232', 'FZ233', 'FZ234', 'FZ235', 'FZ236', 'FZ237', 'FZ238', 'FZ239',
+            'FZ240', 'FZ241', 'FZ242', 'FZ447', 'FZ448',
+            'FF101', 'FF104', 'FF105', 'FF106', 'FF107', 'FF108', 'FF109'],
+    features: ['逸夫报告厅', '实验室', '乒乓球室', '羽毛球室', '大厅', '电动车停车场'],
+    elevators: ['A', 'B', 'C', 'D']
+  },
   2: {
     rooms: ['FZ201', 'FZ202', 'FZ203', 'FZ204', 'FZ205', 'FZ206', 'FZ207', 'FZ208', 'FZ209', 'FZ210',
             'FZ211', 'FZ212', 'FZ213', 'FZ214', 'FZ215', 'FZ216', 'FZ217', 'FZ218', 'FZ219', 'FZ220',
@@ -101,7 +113,7 @@ const floorConfig: Record<number, { rooms: string[]; features: string[]; elevato
   }
 };
 
-const floors = [2, 3, 4, 5, 6, 7, 8];
+const floors = [1, 2, 3, 4, 5, 6, 7, 8];
 
 // ==================== 二楼平面图 ====================
 // U型布局：北、南、东三个方向房间带，中心逸夫报告厅
@@ -198,7 +210,6 @@ const floor2Rooms: RoomData[] = [
   { id: 'FZ238', x: 260, y: 600, width: 45, height: 45, label: '238', corridor: 'south', pathNode: { x: 282, y: 555 } },
   { id: 'FZ239', x: 210, y: 600, width: 45, height: 45, label: '239', corridor: 'south', pathNode: { x: 232, y: 555 } },
   
- 
   // 南侧楼梯（西侧）
   { id: 'stair-SW', x: 155, y: 600, width: 50, height: 45, label: '楼梯', type: 'stair' },
   
@@ -498,7 +509,6 @@ const floor5Rooms: RoomData[] = [
   { id: 'stair-SW', x: 260, y: 740, width: 50, height: 50, label: '楼梯', type: 'stair' },
   
   { id: 'FZ544', x: 320, y: 740, width: 45, height: 50, label: '544', corridor: 'south', pathNode: { x: 342, y: 735 } },
-  { id: 'FZ545', x: 375, y: 740, width: 45, height: 50, label: '545', corridor: 'south', pathNode: { x: 397, y: 735 } },
   { id: 'FZ545', x: 375, y: 740, width: 45, height: 50, label: '545', corridor: 'south', pathNode: { x: 397, y: 735 } },
   { id: 'FZ546', x: 430, y: 740, width: 45, height: 50, label: '546', corridor: 'south', pathNode: { x: 452, y: 735 } },
   { id: 'FZ547', x: 485, y: 740, width: 45, height: 50, label: '547', corridor: 'south', pathNode: { x: 507, y: 735 } },
@@ -800,7 +810,6 @@ const floor7Rooms: RoomData[] = [
   { id: 'FZ763', x: 2370, y: 1100, width: 50, height: 50, label: '763', corridor: 'south', pathNode: { x: 2395, y: 1095 } },
   { id: 'FZ764', x: 2430, y: 1100, width: 50, height: 50, label: '764', corridor: 'south', pathNode: { x: 2455, y: 1095 } },
   { id: 'FZ765', x: 2490, y: 1100, width: 50, height: 50, label: '765', corridor: 'south', pathNode: { x: 2515, y: 1095 } },
-  { id: 'FZ765', x: 2490, y: 1100, width: 50, height: 50, label: '765', corridor: 'south', pathNode: { x: 2515, y: 1095 } },
   { id: 'FZ766', x: 2550, y: 1100, width: 50, height: 50, label: '766', corridor: 'south', pathNode: { x: 2575, y: 1095 } },
   
   // 南侧东段楼梯
@@ -890,8 +899,156 @@ const floor8Rooms: RoomData[] = [
   { id: 'center-area', x: 150, y: 90, width: 680, height: 450, label: '中心区域', type: 'feature', corridor: 'center', pathNode: { x: 490, y: 315 } },
 ];
 
+// ==================== 一楼平面图 ====================
+// 东西两个区域，中间电动车停车场分隔
+// 西侧区域：实验室、乒乓球室、羽毛球室、大厅
+// 东侧区域：逸夫报告厅
+const floor1Rooms: RoomData[] = [
+  // ========== 西侧区域 - 北侧房间（从西到东）==========
+  // 西北侧楼梯
+  { id: 'stair-NW', x: 40, y: 15, width: 50, height: 45, label: '楼梯', type: 'stair' },
+  
+  { id: 'FZ106', x: 100, y: 15, width: 50, height: 45, label: '106', corridor: 'north-west', pathNode: { x: 125, y: 95 } },
+  { id: 'FZ107', x: 160, y: 15, width: 50, height: 45, label: '107', corridor: 'north-west', pathNode: { x: 185, y: 95 } },
+  { id: 'FZ108', x: 220, y: 15, width: 50, height: 45, label: '108', corridor: 'north-west', pathNode: { x: 245, y: 95 } },
+  { id: 'FZ109', x: 280, y: 15, width: 50, height: 45, label: '109', corridor: 'north-west', pathNode: { x: 305, y: 95 } },
+  
+  // 实验室区域
+  { id: 'lab', x: 340, y: 15, width: 100, height: 80, label: '实验室', type: 'feature', corridor: 'north-west', pathNode: { x: 390, y: 95 } },
+  
+  // 乒乓球室
+  { id: 'pingpong', x: 450, y: 15, width: 80, height: 60, label: '乒乓球室', type: 'feature', corridor: 'north', pathNode: { x: 490, y: 95 } },
+  
+  // 羽毛球室
+  { id: 'badminton', x: 540, y: 15, width: 80, height: 60, label: '羽毛球室', type: 'feature', corridor: 'north', pathNode: { x: 580, y: 95 } },
+  
+  // A电梯（西侧区域右上角）
+  { id: 'A-elevator', x: 630, y: 15, width: 50, height: 50, label: 'A\n电梯', type: 'elevator', corridor: 'north', pathNode: { x: 655, y: 90 } },
+  
+  // ========== 西侧区域 - 中间房间 ==========
+  { id: 'FZ101', x: 40, y: 100, width: 50, height: 45, label: '101', corridor: 'west', pathNode: { x: 65, y: 122 } },
+  { id: 'FZ102', x: 40, y: 155, width: 50, height: 45, label: '102', corridor: 'west', pathNode: { x: 65, y: 177 } },
+  { id: 'FZ103', x: 40, y: 210, width: 50, height: 45, label: '103', corridor: 'west', pathNode: { x: 65, y: 232 } },
+  
+  { id: 'FZ104', x: 100, y: 100, width: 50, height: 45, label: '104', corridor: 'center-west', pathNode: { x: 125, y: 122 } },
+  { id: 'FZ105', x: 160, y: 100, width: 50, height: 45, label: '105', corridor: 'center-west', pathNode: { x: 185, y: 122 } },
+  
+  { id: 'FZ158', x: 100, y: 155, width: 50, height: 45, label: '158', corridor: 'center-west', pathNode: { x: 125, y: 177 } },
+  { id: 'FZ159', x: 160, y: 155, width: 50, height: 45, label: '159', corridor: 'center-west', pathNode: { x: 185, y: 177 } },
+  
+  { id: 'FZ111', x: 220, y: 100, width: 45, height: 45, label: '111', corridor: 'center-west', pathNode: { x: 242, y: 122 } },
+  { id: 'FZ112', x: 275, y: 100, width: 45, height: 45, label: '112', corridor: 'center-west', pathNode: { x: 297, y: 122 } },
+  { id: 'FZ113', x: 330, y: 100, width: 45, height: 45, label: '113', corridor: 'center-west', pathNode: { x: 352, y: 122 } },
+  { id: 'FZ114', x: 385, y: 100, width: 45, height: 45, label: '114', corridor: 'center-west', pathNode: { x: 407, y: 122 } },
+  { id: 'FZ115', x: 440, y: 100, width: 45, height: 45, label: '115', corridor: 'center-west', pathNode: { x: 462, y: 122 } },
+  
+  { id: 'FZ110', x: 495, y: 100, width: 45, height: 45, label: '110', corridor: 'center-west', pathNode: { x: 517, y: 122 } },
+  
+  // 大厅
+  { id: 'lobby', x: 550, y: 100, width: 120, height: 150, label: '大厅', type: 'feature', corridor: 'center', pathNode: { x: 610, y: 175 } },
+  
+  // ========== 西侧区域 - 下层房间 ==========
+  { id: 'FZ160', x: 100, y: 250, width: 50, height: 45, label: '160', corridor: 'center-west', pathNode: { x: 125, y: 272 } },
+  { id: 'FZ161', x: 160, y: 250, width: 50, height: 45, label: '161', corridor: 'center-west', pathNode: { x: 185, y: 272 } },
+  { id: 'FZ162', x: 220, y: 250, width: 50, height: 45, label: '162', corridor: 'center-west', pathNode: { x: 245, y: 272 } },
+  
+  { id: 'FZ151', x: 280, y: 250, width: 50, height: 45, label: '151', corridor: 'center-west', pathNode: { x: 305, y: 272 } },
+  { id: 'FZ152', x: 340, y: 250, width: 50, height: 45, label: '152', corridor: 'center-west', pathNode: { x: 365, y: 272 } },
+  
+  { id: 'FZ447', x: 400, y: 250, width: 50, height: 45, label: '447', corridor: 'center-west', pathNode: { x: 425, y: 272 } },
+  { id: 'FZ448', x: 460, y: 250, width: 50, height: 45, label: '448', corridor: 'center-west', pathNode: { x: 485, y: 272 } },
+  
+  // ========== 西侧区域 - 南侧房间 ==========
+  // 西南侧楼梯
+  { id: 'stair-SW', x: 40, y: 600, width: 50, height: 45, label: '楼梯', type: 'stair' },
+  
+  { id: 'FZ240', x: 100, y: 600, width: 50, height: 45, label: '240', corridor: 'south-west', pathNode: { x: 125, y: 555 } },
+  { id: 'FZ241', x: 160, y: 600, width: 50, height: 45, label: '241', corridor: 'south-west', pathNode: { x: 185, y: 555 } },
+  { id: 'FZ242', x: 220, y: 600, width: 50, height: 45, label: '242', corridor: 'south-west', pathNode: { x: 245, y: 555 } },
+  
+  { id: 'FZ232', x: 280, y: 600, width: 45, height: 45, label: '232', corridor: 'south-west', pathNode: { x: 302, y: 555 } },
+  { id: 'FZ233', x: 335, y: 600, width: 45, height: 45, label: '233', corridor: 'south-west', pathNode: { x: 357, y: 555 } },
+  { id: 'FZ234', x: 390, y: 600, width: 45, height: 45, label: '234', corridor: 'south-west', pathNode: { x: 412, y: 555 } },
+  { id: 'FZ235', x: 445, y: 600, width: 45, height: 45, label: '235', corridor: 'south-west', pathNode: { x: 467, y: 555 } },
+  { id: 'FZ236', x: 500, y: 600, width: 45, height: 45, label: '236', corridor: 'south-west', pathNode: { x: 522, y: 555 } },
+  { id: 'FZ237', x: 555, y: 600, width: 45, height: 45, label: '237', corridor: 'south-west', pathNode: { x: 577, y: 555 } },
+  
+  // B电梯（西侧区域右下角）
+  { id: 'B-elevator', x: 610, y: 575, width: 50, height: 50, label: 'B\n电梯', type: 'elevator', corridor: 'south', pathNode: { x: 635, y: 560 } },
+  
+  // ========== 电动车停车场（中间分隔区域）==========
+  { id: 'parking', x: 680, y: 150, width: 150, height: 350, label: '电动车停车场', type: 'feature', corridor: 'center', pathNode: { x: 755, y: 325 } },
+  
+  // ========== 东侧区域 - 北侧房间 ==========
+  // C电梯（东侧区域左上角）
+  { id: 'C-elevator', x: 850, y: 15, width: 50, height: 50, label: 'C\n电梯', type: 'elevator', corridor: 'north', pathNode: { x: 875, y: 90 } },
+  
+  { id: 'FZ117', x: 910, y: 15, width: 45, height: 45, label: '117', corridor: 'north-east', pathNode: { x: 932, y: 95 } },
+  { id: 'FZ118', x: 965, y: 15, width: 45, height: 45, label: '118', corridor: 'north-east', pathNode: { x: 987, y: 95 } },
+  { id: 'FZ119', x: 1020, y: 15, width: 45, height: 45, label: '119', corridor: 'north-east', pathNode: { x: 1042, y: 95 } },
+  { id: 'FZ120', x: 1075, y: 15, width: 45, height: 45, label: '120', corridor: 'north-east', pathNode: { x: 1097, y: 95 } },
+  { id: 'FZ121', x: 1130, y: 15, width: 45, height: 45, label: '121', corridor: 'north-east', pathNode: { x: 1152, y: 95 } },
+  { id: 'FZ122', x: 1185, y: 15, width: 45, height: 45, label: '122', corridor: 'north-east', pathNode: { x: 1207, y: 95 } },
+  { id: 'FZ123', x: 1240, y: 15, width: 45, height: 45, label: '123', corridor: 'north-east', pathNode: { x: 1262, y: 95 } },
+  { id: 'FZ124', x: 1295, y: 15, width: 45, height: 45, label: '124', corridor: 'north-east', pathNode: { x: 1317, y: 95 } },
+  
+  // 东北侧楼梯
+  { id: 'stair-NE', x: 1350, y: 15, width: 50, height: 45, label: '楼梯', type: 'stair' },
+  
+  // ========== 东侧区域 - 中间房间 ==========
+  { id: 'FZ125', x: 910, y: 100, width: 45, height: 45, label: '125', corridor: 'east-north', pathNode: { x: 932, y: 122 } },
+  { id: 'FZ126', x: 910, y: 155, width: 45, height: 45, label: '126', corridor: 'east-north', pathNode: { x: 932, y: 177 } },
+  { id: 'FZ127', x: 910, y: 210, width: 45, height: 45, label: '127', corridor: 'east-north', pathNode: { x: 932, y: 232 } },
+  { id: 'FZ128', x: 910, y: 265, width: 45, height: 45, label: '128', corridor: 'east-north', pathNode: { x: 932, y: 287 } },
+  
+  { id: 'FF108', x: 960, y: 100, width: 45, height: 40, label: 'F108', corridor: 'east-north', pathNode: { x: 982, y: 120 } },
+  { id: 'FF109', x: 960, y: 150, width: 45, height: 40, label: 'F109', corridor: 'east-north', pathNode: { x: 982, y: 170 } },
+  
+  // 逸夫报告厅
+  { id: 'auditorium', x: 1010, y: 100, width: 200, height: 180, label: '逸夫报告厅', type: 'feature', corridor: 'center-east', pathNode: { x: 1110, y: 190 } },
+  
+  { id: 'FZ129', x: 1220, y: 100, width: 45, height: 45, label: '129', corridor: 'east-north', pathNode: { x: 1242, y: 122 } },
+  { id: 'FZ130', x: 1275, y: 100, width: 45, height: 45, label: '130', corridor: 'east-north', pathNode: { x: 1297, y: 122 } },
+  { id: 'FZ131', x: 1330, y: 100, width: 45, height: 45, label: '131', corridor: 'east-north', pathNode: { x: 1352, y: 122 } },
+  
+  { id: 'FZ132', x: 1220, y: 155, width: 45, height: 45, label: '132', corridor: 'east-north', pathNode: { x: 1242, y: 177 } },
+  { id: 'FZ133', x: 1275, y: 155, width: 45, height: 45, label: '133', corridor: 'east-north', pathNode: { x: 1297, y: 177 } },
+  { id: 'FZ134', x: 1330, y: 155, width: 45, height: 45, label: '134', corridor: 'east-north', pathNode: { x: 1352, y: 177 } },
+  
+  // ========== 东侧区域 - 下层房间 ==========
+  { id: 'FF104', x: 910, y: 320, width: 45, height: 40, label: 'F104', corridor: 'east-south', pathNode: { x: 932, y: 340 } },
+  { id: 'FF105', x: 910, y: 370, width: 45, height: 40, label: 'F105', corridor: 'east-south', pathNode: { x: 932, y: 390 } },
+  { id: 'FF106', x: 910, y: 420, width: 45, height: 40, label: 'F106', corridor: 'east-south', pathNode: { x: 932, y: 440 } },
+  { id: 'FF107', x: 910, y: 470, width: 45, height: 40, label: 'F107', corridor: 'east-south', pathNode: { x: 932, y: 490 } },
+  
+  { id: 'FZ136', x: 960, y: 320, width: 45, height: 45, label: '136', corridor: 'east-south', pathNode: { x: 982, y: 342 } },
+  { id: 'FZ137', x: 960, y: 375, width: 45, height: 45, label: '137', corridor: 'east-south', pathNode: { x: 982, y: 397 } },
+  
+  { id: 'FZ138', x: 1010, y: 320, width: 45, height: 45, label: '138', corridor: 'east-south', pathNode: { x: 1032, y: 342 } },
+  { id: 'FZ139', x: 1060, y: 320, width: 45, height: 45, label: '139', corridor: 'east-south', pathNode: { x: 1082, y: 342 } },
+  { id: 'FZ140', x: 1110, y: 320, width: 45, height: 45, label: '140', corridor: 'east-south', pathNode: { x: 1132, y: 342 } },
+  
+  { id: 'FZ141', x: 1010, y: 375, width: 45, height: 45, label: '141', corridor: 'east-south', pathNode: { x: 1032, y: 397 } },
+  { id: 'FZ142', x: 1060, y: 375, width: 45, height: 45, label: '142', corridor: 'east-south', pathNode: { x: 1082, y: 397 } },
+  { id: 'FZ143', x: 1110, y: 375, width: 45, height: 45, label: '143', corridor: 'east-south', pathNode: { x: 1132, y: 397 } },
+  { id: 'FZ144', x: 1160, y: 375, width: 45, height: 45, label: '144', corridor: 'east-south', pathNode: { x: 1182, y: 397 } },
+  { id: 'FZ145', x: 1210, y: 375, width: 45, height: 45, label: '145', corridor: 'east-south', pathNode: { x: 1232, y: 397 } },
+  { id: 'FZ146', x: 1260, y: 375, width: 45, height: 45, label: '146', corridor: 'east-south', pathNode: { x: 1282, y: 397 } },
+  { id: 'FZ135', x: 1310, y: 375, width: 45, height: 45, label: '135', corridor: 'east-south', pathNode: { x: 1332, y: 397 } },
+  
+  // ========== 东侧区域 - 南侧房间 ==========
+  { id: 'FF101', x: 1310, y: 600, width: 45, height: 40, label: 'F101', corridor: 'south-east', pathNode: { x: 1332, y: 555 } },
+  
+  // D电梯（东侧区域右下角）
+  { id: 'D-elevator', x: 850, y: 575, width: 50, height: 50, label: 'D\n电梯', type: 'elevator', corridor: 'south', pathNode: { x: 875, y: 560 } },
+  
+  // 东南侧楼梯
+  { id: 'stair-SE', x: 1350, y: 600, width: 50, height: 45, label: '楼梯', type: 'stair' },
+];
+
 // 楼层平面图数据映射
 const floorPlanData: Record<number, RoomData[]> = {
+  1: floor1Rooms,
   2: floor2Rooms,
   3: floor3Rooms,
   4: floor4Rooms,
@@ -903,6 +1060,7 @@ const floorPlanData: Record<number, RoomData[]> = {
 
 // 楼层视图尺寸
 const floorViewBox: Record<number, { width: number; height: number }> = {
+  1: { width: 1420, height: 660 },
   2: { width: 1420, height: 660 },
   3: { width: 1420, height: 660 },
   4: { width: 1420, height: 660 },
@@ -932,10 +1090,27 @@ interface FloorConnectivity {
   southEastBreak: number;       // 南侧走廊断开位置（X坐标）
   eastBreak: number;            // 东侧走廊断开位置（Y坐标）
   cornerConnected: boolean;     // 四角是否连通
+  canDetourOutside?: boolean;   // 是否可以绕建筑外边走（如2楼广场）
 }
 
 // 各楼层连通性配置
+// 说明：
+// - 1楼：全部连通
+// - 2楼：走廊不连通，但是广场可以绕外边走（实际可通行）
+// - 3楼：走廊断开的地方都不连通
+// - 4楼：南北两侧走廊不连通
+// - 5楼、6楼、7楼、8楼：全部连通
 const floorConnectivity: Record<number, FloorConnectivity> = {
+  1: { 
+    northConnected: true, 
+    southConnected: true, 
+    eastConnected: true, 
+    westConnected: true,
+    northEastBreak: 0, 
+    southEastBreak: 0,
+    eastBreak: 0,
+    cornerConnected: true
+  },
   2: { 
     northConnected: false, 
     southConnected: false, 
@@ -944,7 +1119,8 @@ const floorConnectivity: Record<number, FloorConnectivity> = {
     northEastBreak: 670, 
     southEastBreak: 670,
     eastBreak: 0,
-    cornerConnected: true
+    cornerConnected: true, // 广场可以绕行
+    canDetourOutside: true // 2楼可以绕广场外边走
   },
   3: { 
     northConnected: false, 
@@ -964,7 +1140,7 @@ const floorConnectivity: Record<number, FloorConnectivity> = {
     northEastBreak: 670, 
     southEastBreak: 670,
     eastBreak: 0,
-    cornerConnected: true
+    cornerConnected: false // 南北走廊不连通
   },
   5: { 
     northConnected: true, 
@@ -1022,7 +1198,7 @@ const corridorNodes = {
   southD: { x: 755, y: 570 },       // D电梯附近
   southEast: { x: 1310, y: 570 },   // 东南角
   
-  // 东侧走廊节点
+ // 东侧走廊节点
   eastNorth: { x: 1310, y: 160 },   // 东侧北端
   eastSouth: { x: 1310, y: 535 },   // 东侧南端
   
@@ -1036,7 +1212,7 @@ function findShortestPath(
   startNode: { x: number; y: number; corridor: string },
   endNode: { x: number; y: number; corridor: string },
   floor: number
-): { path: { x: number; y: number }[]; distance: number; needsDetour: boolean } {
+): { path: { x: number; y: number }[]; distance: number; needsDetour: boolean; detourInfo?: string } {
   const connectivity = floorConnectivity[floor];
   const path: { x: number; y: number }[] = [];
   
@@ -1045,102 +1221,108 @@ function findShortestPath(
   const endCorridor = endNode.corridor;
   
   // 同一走廊，直接走
-  if (startCorridor === endCorridor) {
+  if (startCorridor === endCorridor || 
+      (startCorridor.includes('north') && endCorridor.includes('north')) ||
+      (startCorridor.includes('south') && endCorridor.includes('south')) ||
+      (startCorridor.includes('east') && endCorridor.includes('east')) ||
+      (startCorridor.includes('west') && endCorridor.includes('west'))) {
     path.push({ x: startNode.x, y: startNode.y });
     path.push({ x: endNode.x, y: endNode.y });
     return { path, distance: getDistance(startNode, endNode), needsDetour: false };
   }
   
-  // 不同走廊，需要通过转接点
-  // 构建路径节点图
-  const nodes: Map<string, { x: number; y: number; neighbors: string[] }> = new Map();
-  
-  // 添加走廊节点
-  nodes.set('northA', { ...corridorNodes.northA, neighbors: [] });
-  nodes.set('northC', { ...corridorNodes.northC, neighbors: [] });
-  nodes.set('southB', { ...corridorNodes.southB, neighbors: [] });
-  nodes.set('southD', { ...corridorNodes.southD, neighbors: [] });
-  nodes.set('eastNorth', { ...corridorNodes.eastNorth, neighbors: [] });
-  nodes.set('eastSouth', { ...corridorNodes.eastSouth, neighbors: [] });
-  
-  // 根据连通性添加边
-  if (floor === 2 || floor === 4) {
-    // 东侧走廊贯通
-    nodes.get('eastNorth')!.neighbors.push('eastSouth');
-    nodes.get('eastSouth')!.neighbors.push('eastNorth');
-    // 北侧C电梯连接东侧
-    nodes.get('northC')!.neighbors.push('eastNorth');
-    nodes.get('eastNorth')!.neighbors.push('northC');
-    // 南侧D电梯连接东侧
-    nodes.get('southD')!.neighbors.push('eastSouth');
-    nodes.get('eastSouth')!.neighbors.push('southD');
-  }
-  
-  if (floor === 5) {
-    // 全部连通
-    nodes.get('northA')!.neighbors.push('northC');
-    nodes.get('northC')!.neighbors.push('northA');
-    nodes.get('southB')!.neighbors.push('southD');
-    nodes.get('southD')!.neighbors.push('southB');
-    nodes.get('eastNorth')!.neighbors.push('eastSouth', 'northC');
-    nodes.get('eastSouth')!.neighbors.push('eastNorth', 'southD');
-    nodes.get('northC')!.neighbors.push('eastNorth');
-    nodes.get('southD')!.neighbors.push('eastSouth');
-  }
+  // 判断是否需要绕行
+  let needsDetour = false;
+  let detourInfo = '';
   
   // 计算路径
   path.push({ x: startNode.x, y: startNode.y });
   
-  // 根据起点和终点走廊选择路径
-  const eastX = 1310;
+  // 根据楼层连通性判断路径
+  const isNorthSide = (c: string) => c.includes('north');
+  const isSouthSide = (c: string) => c.includes('south');
+  const isEastSide = (c: string) => c.includes('east');
+  const isWestSide = (c: string) => c.includes('west') && !c.includes('east');
   
-  if (startCorridor === 'north' && endCorridor === 'south') {
-    // 北到南
-    if (connectivity.eastConnected) {
-      path.push({ x: startNode.x, y: 80 });  // 到北侧走廊
-      path.push({ x: eastX, y: 80 });        // 到东侧走廊北端
-      path.push({ x: eastX, y: 570 });       // 沿东侧走廊到南端
-      path.push({ x: endNode.x, y: 570 });   // 到目标
-      path.push({ x: endNode.x, y: 570 });   // 到目标
-      path.push({ x: endNode.x, y: endNode.y });
-    } else {
-      // 需要下楼绕行
-      path.push({ x: endNode.x, y: endNode.y });
-      return { path, distance: Infinity, needsDetour: true };
-    }
-  } else if (startCorridor === 'south' && endCorridor === 'north') {
-    // 南到北
-    if (connectivity.eastConnected) {
-      path.push({ x: startNode.x, y: 570 });
-      path.push({ x: eastX, y: 570 });
-      path.push({ x: eastX, y: 80 });
-      path.push({ x: endNode.x, y: 80 });
-      path.push({ x: endNode.x, y: endNode.y });
-    } else {
-      path.push({ x: endNode.x, y: endNode.y });
-      return { path, distance: Infinity, needsDetour: true };
-    }
-  } else if (endCorridor === 'east') {
-    // 到东侧走廊
-    const startY = startCorridor === 'north' ? 80 : 570;
-    path.push({ x: startNode.x, y: startY });
-    path.push({ x: eastX, y: startY });
+  const startIsNorth = isNorthSide(startCorridor);
+  const endIsNorth = isNorthSide(endCorridor);
+  const startIsSouth = isSouthSide(startCorridor);
+  const endIsSouth = isSouthSide(endCorridor);
+  const startIsEast = isEastSide(startCorridor);
+  const endIsEast = isEastSide(endCorridor);
+  const startIsWest = isWestSide(startCorridor);
+  const endIsWest = isWestSide(endCorridor);
+  
+  // 根据楼层特性计算路径
+  // 1楼：全部连通
+  if (floor === 1) {
+    // 任意位置都可以直接到达
     path.push({ x: endNode.x, y: endNode.y });
-  } else if (startCorridor === 'east') {
-    // 从东侧走廊出发
-    const endY = endCorridor === 'north' ? 80 : 570;
-    path.push({ x: startNode.x, y: startNode.y });
-    path.push({ x: eastX, y: endY });
-    path.push({ x: endNode.x, y: endY });
-  } else {
-    // 其他情况，通过东侧走廊绕行
-    const startY = startCorridor === 'north' ? 80 : 570;
-    const endY = endCorridor === 'north' ? 80 : 570;
-    path.push({ x: startNode.x, y: startY });
-    path.push({ x: eastX, y: startY });
-    path.push({ x: eastX, y: endY });
-    path.push({ x: endNode.x, y: endY });
+    return { path, distance: getDistance(startNode, endNode), needsDetour: false };
+  }
+  
+  // 2楼：可以绕广场外边走，实际全部连通
+  if (floor === 2) {
+    // 可以绕广场外边走
     path.push({ x: endNode.x, y: endNode.y });
+    return { path, distance: getDistance(startNode, endNode), needsDetour: false };
+  }
+  
+  // 3楼：走廊断开的地方都不连通
+  if (floor === 3) {
+    // 同一侧可以直接走
+    if ((startIsNorth && endIsNorth) || (startIsSouth && endIsSouth) ||
+        (startIsEast && endIsEast) || (startIsWest && endIsWest)) {
+      path.push({ x: endNode.x, y: endNode.y });
+      return { path, distance: getDistance(startNode, endNode), needsDetour: false };
+    }
+    // 不同走廊之间无法通行
+    needsDetour = true;
+    detourInfo = '3楼走廊断开，不同走廊间无法通行，需乘坐电梯到其他楼层绕行';
+  }
+  
+  // 4楼：南北走廊不连通，但可以通过东侧走廊绕行
+  if (floor === 4) {
+    if (startIsNorth !== endIsNorth) {
+      // 南北之间，检查是否可以通过东侧走廊
+      // 东侧走廊入口在北侧东段和南侧东段
+      const startCanEnterEast = startCorridor === 'north-east' || startCorridor === 'south-east' || startIsEast;
+      const endCanEnterEast = endCorridor === 'north-east' || endCorridor === 'south-east' || endIsEast;
+      
+      if (startCanEnterEast || endCanEnterEast || startIsEast || endIsEast) {
+        // 可以通过东侧走廊绕行
+        const eastX = 1568;
+        const northY = 75;
+        const southY = 600;
+        
+        if (startIsNorth) {
+          path.push({ x: startNode.x, y: northY });
+          path.push({ x: eastX, y: northY });
+          path.push({ x: eastX, y: southY });
+          path.push({ x: endNode.x, y: southY });
+        } else {
+          path.push({ x: startNode.x, y: southY });
+          path.push({ x: eastX, y: southY });
+          path.push({ x: eastX, y: northY });
+          path.push({ x: endNode.x, y: northY });
+        }
+        path.push({ x: endNode.x, y: endNode.y });
+      } else {
+        // 无法通过东侧走廊
+        needsDetour = true;
+        detourInfo = '4楼南北走廊不连通，当前电梯位置无法到达东侧走廊入口';
+      }
+    } else {
+      // 同侧直接走
+      path.push({ x: endNode.x, y: endNode.y });
+    }
+  }
+  
+  // 5楼、6楼、7楼、8楼：全部连通
+  if (floor === 5 || floor === 6 || floor === 7 || floor === 8) {
+    // 任意位置都可以直接到达
+    path.push({ x: endNode.x, y: endNode.y });
+    return { path, distance: getDistance(startNode, endNode), needsDetour: false };
   }
   
   // 计算总距离
@@ -1149,7 +1331,7 @@ function findShortestPath(
     totalDistance += getDistance(path[i - 1], path[i]);
   }
   
-  return { path, distance: totalDistance, needsDetour: false };
+  return { path, distance: needsDetour ? Infinity : totalDistance, needsDetour, detourInfo };
 }
 
 // 计算两点之间的曼哈顿距离
@@ -1157,13 +1339,114 @@ function getDistance(p1: { x: number; y: number }, p2: { x: number; y: number })
   return Math.abs(p1.x - p2.x) + Math.abs(p1.y - p2.y);
 }
 
-// 找到最优电梯 - 考虑起点位置和终点位置
+// 判断电梯是否可以到达目标房间（考虑走廊连通性）
+// 连通性规则：
+// - 1楼：全部连通
+// - 2楼：走廊不连通但可以绕广场外边走（实际可通行）
+// - 3楼：走廊断开的地方都不连通
+// - 4楼：南北走廊不连通
+// - 5-8楼：全部连通
+function canElevatorReachRoom(
+  elevatorId: string,
+  targetFloor: number,
+  targetCorridor: string
+): { canReach: boolean; reason: string } {
+  const targetRooms = floorPlanData[targetFloor];
+  if (!targetRooms) return { canReach: true, reason: '数据缺失，默认可达' };
+  
+  const elevatorData = targetRooms.find(r => r.id === `${elevatorId}-elevator`);
+  if (!elevatorData) return { canReach: true, reason: '电梯数据缺失，默认可达' };
+  
+  const elevatorCorridor = elevatorData.corridor || 'center';
+  const connectivity = floorConnectivity[targetFloor];
+  
+  // 1楼、5楼、6楼、7楼、8楼：全部连通
+  if (targetFloor === 1 || targetFloor === 5 || targetFloor === 6 || targetFloor === 7 || targetFloor === 8) {
+    return { canReach: true, reason: `${targetFloor}楼全部连通` };
+  }
+  
+  // 2楼：可以绕广场外边走
+  if (targetFloor === 2) {
+    return { canReach: true, reason: '2楼可绕广场外边通行' };
+  }
+  
+  // 辅助函数：判断走廊位置
+  const isNorthSide = (c: string) => c.includes('north');
+  const isSouthSide = (c: string) => c.includes('south');
+  const isEastSide = (c: string) => c.includes('east');
+  const isWestSide = (c: string) => c.includes('west') && !c.includes('east');
+  
+  // 同一侧的走廊可以直接到达
+  if (isNorthSide(elevatorCorridor) && isNorthSide(targetCorridor)) {
+    return { canReach: true, reason: '同在北侧走廊' };
+  }
+  if (isSouthSide(elevatorCorridor) && isSouthSide(targetCorridor)) {
+    return { canReach: true, reason: '同在南侧走廊' };
+  }
+  if (isEastSide(elevatorCorridor) && isEastSide(targetCorridor)) {
+    return { canReach: true, reason: '同在东侧走廊' };
+  }
+  if (isWestSide(elevatorCorridor) && isWestSide(targetCorridor)) {
+    return { canReach: true, reason: '同在西侧走廊' };
+  }
+  
+  // 3楼：走廊断开的地方都不连通
+  // 3楼北侧走廊断开，南侧走廊断开，东侧走廊也断开
+  if (targetFloor === 3) {
+    // 不同走廊之间无法通行
+    return { canReach: false, reason: '3楼走廊断开，不同走廊间无法通行' };
+  }
+  
+  // 4楼：南北走廊不连通
+  if (targetFloor === 4) {
+    // 东侧走廊连通南北
+    if (isEastSide(targetCorridor)) {
+      // 要到达东侧走廊，需要从北侧东段或南侧东段进入
+      if (elevatorCorridor === 'north-east') {
+        return { canReach: true, reason: '北侧东段可直接进入东侧走廊' };
+      }
+      if (elevatorCorridor === 'south-east') {
+        return { canReach: true, reason: '南侧东段可直接进入东侧走廊' };
+      }
+      // 北侧西段无法到达东侧（北侧走廊不连通）
+      // 南侧西段无法到达东侧（南侧走廊不连通）
+      return { canReach: false, reason: '4楼北侧/南侧走廊不连通，无法到达东侧走廊' };
+    }
+    
+    // 目标在西侧走廊
+    if (isWestSide(targetCorridor)) {
+      if (elevatorCorridor === 'north-west') {
+        return { canReach: true, reason: '北侧西段可直接进入西侧走廊' };
+      }
+      if (elevatorCorridor === 'south-west') {
+        return { canReach: true, reason: '南侧西段可直接进入西侧走廊' };
+      }
+      return { canReach: false, reason: '4楼北侧/南侧走廊不连通，无法到达西侧走廊' };
+    }
+    
+    // 目标在北侧，电梯在南侧（或反之）
+    // 南北之间无法直接通行，除非通过东侧走廊
+    if ((isNorthSide(targetCorridor) && isSouthSide(elevatorCorridor)) ||
+        (isSouthSide(targetCorridor) && isNorthSide(elevatorCorridor))) {
+      // 只有电梯在东侧走廊入口位置才能绕行
+      if (elevatorCorridor === 'north-east' || elevatorCorridor === 'south-east') {
+        return { canReach: true, reason: '可通过东侧走廊绕行' };
+      }
+      return { canReach: false, reason: '4楼南北走廊不连通' };
+    }
+  }
+  
+  // 默认情况
+  return { canReach: true, reason: '默认可达' };
+}
+
+// 找到最优电梯 - 考虑起点位置、终点位置和走廊连通性
 function findOptimalElevator(
   startFloor: number,
   startRoom: string | null,
   targetFloor: number,
   targetRoom: string
-): { elevator: string; reason: string } {
+): { elevator: string; reason: string; needsTransfer?: boolean; transferInfo?: string } {
   // 获取两楼层都有的电梯
   const startElevators = floorConfig[startFloor]?.elevators || ['A', 'B', 'C', 'D'];
   const targetElevators = floorConfig[targetFloor]?.elevators || ['A', 'B', 'C', 'D'];
@@ -1171,7 +1454,7 @@ function findOptimalElevator(
   
   if (commonElevators.length === 0) {
     // 没有共同电梯，需要换乘（简化处理，返回第一个可用电梯）
-    return { elevator: startElevators[0] || 'A', reason: '需要换乘电梯' };
+    return { elevator: startElevators[0] || 'A', reason: '需要换乘电梯', needsTransfer: true };
   }
   
   if (commonElevators.length === 1) {
@@ -1195,29 +1478,50 @@ function findOptimalElevator(
     }
   }
   
-  // 计算最优电梯
+  // 获取目标房间的走廊位置
   const targetRooms = floorPlanData[targetFloor];
   const targetRoomData = targetRooms?.find(r => r.id === targetRoom);
+  const targetCorridor = targetRoomData?.corridor || 'center';
   
-  if (targetRoomData?.pathNode) {
-    // 找距离目标房间最近的电梯
-    let minDistance = Infinity;
-    let bestElevator = commonElevators[0];
+  // 筛选可以到达目标走廊的电梯
+  const reachableElevators: { id: string; distance: number; reason: string }[] = [];
+  const unreachableElevators: { id: string; reason: string }[] = [];
+  
+  for (const elevatorId of commonElevators) {
+    const { canReach, reason } = canElevatorReachRoom(elevatorId, targetFloor, targetCorridor);
+    const elevatorData = targetRooms?.find(r => r.id === `${elevatorId}-elevator`);
     
-    for (const elevatorId of commonElevators) {
-      const elevatorData = targetRooms?.find(r => r.id === `${elevatorId}-elevator`);
-      if (elevatorData?.pathNode) {
-        const distance = getDistance(elevatorData.pathNode, targetRoomData.pathNode);
-        if (distance < minDistance) {
-          minDistance = distance;
-          bestElevator = elevatorId;
-        }
-      }
+    if (canReach) {
+      const distance = elevatorData?.pathNode && targetRoomData?.pathNode
+        ? getDistance(elevatorData.pathNode, targetRoomData.pathNode)
+        : 0;
+      reachableElevators.push({ id: elevatorId, distance, reason });
+    } else {
+      unreachableElevators.push({ id: elevatorId, reason });
     }
-    return { elevator: bestElevator, reason: '距离目标最近' };
   }
   
-  return { elevator: commonElevators[0], reason: '默认电梯' };
+  // 如果有可达的电梯，选择距离最近的
+  if (reachableElevators.length > 0) {
+    reachableElevators.sort((a, b) => a.distance - b.distance);
+    return { 
+      elevator: reachableElevators[0].id, 
+      reason: reachableElevators[0].reason 
+    };
+  }
+  
+  // 如果没有可达的电梯，需要提示换乘
+  // 尝试找到一个可以到达目标的电梯，建议用户换乘
+  const bestAlternative = unreachableElevators.length > 0 ? unreachableElevators[0] : null;
+  
+  return { 
+    elevator: commonElevators[0], 
+    reason: '需要换乘电梯到达目标区域',
+    needsTransfer: true,
+    transferInfo: bestAlternative 
+      ? `${targetFloor}楼走廊不连通。建议方案：\n1. 乘坐当前电梯下到5楼（全连通楼层）\n2. 经5楼走廊到达可到达目标的电梯位置\n3. 乘合适电梯返回${targetFloor}楼`
+      : `${targetFloor}楼走廊不连通，建议：在5楼下电梯 → 经走廊到达目标区域对应位置 → 再乘电梯返回${targetFloor}楼`
+  };
 }
 
 // 导航结果类型
@@ -1266,7 +1570,7 @@ function generateNavigationPath(
   const isSameFloor = startType === 'room' && startFloor === targetFloor;
   
   // 找到最优电梯
-  const { elevator: optimalElevator, reason } = findOptimalElevator(
+  const { elevator: optimalElevator, reason, needsTransfer, transferInfo } = findOptimalElevator(
     startFloor,
     startType === 'room' ? startRoom : null,
     targetFloor,
@@ -1289,7 +1593,7 @@ function generateNavigationPath(
     steps.push({ step: 1, text: `从 ${startRoom} 出发` });
     
     // 使用新的路径算法
-    const { path, needsDetour } = findShortestPath(
+    const { path, needsDetour, detourInfo } = findShortestPath(
       { x: startX, y: startY, corridor: startCorridor },
       { x: endX, y: endY, corridor: targetCorridor },
       targetFloor
@@ -1297,8 +1601,8 @@ function generateNavigationPath(
     
     if (needsDetour) {
       // 走廊不连通，需要下楼绕行
-      steps.push({ step: 2, text: `⚠️ 走廊不连通，需下楼绕行` });
-      steps.push({ step: 3, text: `建议：乘坐电梯下到2楼或5楼 → 经连通走廊到达对应区域 → 再上楼返回${targetFloor}楼` });
+      steps.push({ step: 2, text: `⚠️ ${detourInfo || '走廊不连通'}` });
+      steps.push({ step: 3, text: `建议：乘坐电梯下到5楼（全连通）→ 经走廊到达对应区域 → 再上楼返回${targetFloor}楼` });
       pathPoints.push([startX, startY]);
       pathPoints.push([endX, endY]);
     } else {
@@ -1306,20 +1610,10 @@ function generateNavigationPath(
       path.forEach(p => pathPoints.push([p.x, p.y]));
       
       // 生成导航指引
-      if (startCorridor === targetCorridor) {
+      if (startCorridor === targetCorridor || 
+          (startCorridor.includes('north') && targetCorridor.includes('north')) ||
+          (startCorridor.includes('south') && targetCorridor.includes('south'))) {
         steps.push({ step: 2, text: `沿${getCorridorName(startCorridor)}走廊直行` });
-      } else if (startCorridor === 'north' && targetCorridor === 'south') {
-        steps.push({ step: 2, text: `沿北侧走廊向东走` });
-        steps.push({ step: 3, text: `经东侧走廊向南` });
-        steps.push({ step: 4, text: `沿南侧走廊到达目标` });
-      } else if (startCorridor === 'south' && targetCorridor === 'north') {
-        steps.push({ step: 2, text: `沿南侧走廊向东走` });
-        steps.push({ step: 3, text: `经东侧走廊向北` });
-        steps.push({ step: 4, text: `沿北侧走廊到达目标` });
-      } else if (targetCorridor === 'east') {
-        steps.push({ step: 2, text: `沿走廊向东，转入东侧走廊` });
-      } else if (startCorridor === 'east') {
-        steps.push({ step: 2, text: `沿东侧走廊到达${getCorridorName(targetCorridor)}` });
       } else {
         steps.push({ step: 2, text: `沿走廊向目标方向行走` });
       }
@@ -1335,28 +1629,46 @@ function generateNavigationPath(
       startCorridor = elevatorRoom.corridor || 'north';
     }
     
-    steps.push({ step: 1, text: `乘坐 ${startElevator} 电梯到 ${targetFloor} 楼` });
-    steps.push({ step: 2, text: `从${startElevator}电梯出来` });
+    // 检查当前电梯是否能到达目标
+    const { canReach, reason: reachReason } = canElevatorReachRoom(startElevator, targetFloor, targetCorridor);
     
-    // 使用新的路径算法
-    const { path, needsDetour } = findShortestPath(
-      { x: startX, y: startY, corridor: startCorridor },
-      { x: endX, y: endY, corridor: targetCorridor },
-      targetFloor
-    );
-    
-    pathPoints.push([startX, startY]);
-    
-    if (needsDetour) {
-      steps.push({ step: 3, text: `⚠️ 走廊不连通，需绕行` });
+    if (!canReach) {
+      // 当前电梯无法到达目标，提示换乘
+      steps.push({ step: 1, text: `乘坐 ${startElevator} 电梯到 ${targetFloor} 楼` });
+      steps.push({ step: 2, text: `⚠️ ${startElevator}电梯所在走廊无法直接到达目标区域` });
+      steps.push({ step: 3, text: `原因：${reachReason}` });
+      steps.push({ step: 4, text: `💡 建议：乘坐 ${startElevator} 电梯下到5楼（全连通）→ 经走廊到达目标区域对应位置 → 再乘合适电梯返回${targetFloor}楼` });
+      
+      pathPoints.push([startX, startY]);
       pathPoints.push([endX, endY]);
     } else {
-      path.slice(1).forEach(p => pathPoints.push([p.x, p.y]));
+      // 当前电梯可以到达目标
+      steps.push({ step: 1, text: `乘坐 ${startElevator} 电梯到 ${targetFloor} 楼` });
+      steps.push({ step: 2, text: `从${startElevator}电梯出来` });
       
-      if (startCorridor === targetCorridor) {
-        steps.push({ step: 3, text: `沿${getCorridorName(startCorridor)}走廊直行` });
+      // 使用新的路径算法
+      const { path: path2, needsDetour: needsDetour2, detourInfo: detourInfo2 } = findShortestPath(
+        { x: startX, y: startY, corridor: startCorridor },
+        { x: endX, y: endY, corridor: targetCorridor },
+        targetFloor
+      );
+      
+      pathPoints.push([startX, startY]);
+      
+      if (needsDetour2) {
+        steps.push({ step: 3, text: `⚠️ ${detourInfo2 || '走廊不连通，需绕行'}` });
+        steps.push({ step: 4, text: `建议：返回电梯 → 下到5楼 → 经走廊到达对应区域 → 再上楼返回${targetFloor}楼` });
+        pathPoints.push([endX, endY]);
       } else {
-        steps.push({ step: 3, text: `沿走廊向目标方向行走` });
+        path2.slice(1).forEach(p => pathPoints.push([p.x, p.y]));
+        
+        if (startCorridor === targetCorridor || 
+            (startCorridor.includes('north') && targetCorridor.includes('north')) ||
+            (startCorridor.includes('south') && targetCorridor.includes('south'))) {
+          steps.push({ step: 3, text: `沿${getCorridorName(startCorridor)}走廊直行` });
+        } else {
+          steps.push({ step: 3, text: `沿走廊向目标方向行走` });
+        }
       }
     }
     steps.push({ step: steps.length + 1, text: `到达目标教室 ${targetRoom}` });
@@ -1369,38 +1681,51 @@ function generateNavigationPath(
     steps.push({ step: 1, text: `从 ${startRoom} 出发（${startFloor}楼）` });
     
     if (optimalElevator) {
-      // 到电梯
-      steps.push({ step: 2, text: `步行至 ${optimalElevator} 电梯` });
-      steps.push({ step: 3, text: `乘坐 ${optimalElevator} 电梯到 ${targetFloor} 楼` });
-      steps.push({ step: 4, text: `从${optimalElevator}电梯出来` });
-      
-      // 获取电梯位置
-      const targetElevatorRoom = targetRooms.find(r => r.id === `${optimalElevator}-elevator`);
-      if (targetElevatorRoom?.pathNode) {
-        startX = targetElevatorRoom.pathNode.x;
-        startY = targetElevatorRoom.pathNode.y;
-        startCorridor = targetElevatorRoom.corridor || 'north';
-      }
-      
-      // 使用新的路径算法
-      const { path, needsDetour } = findShortestPath(
-        { x: startX, y: startY, corridor: startCorridor },
-        { x: endX, y: endY, corridor: targetCorridor },
-        targetFloor
-      );
-      
-      pathPoints.push([startX, startY]);
-      
-      if (needsDetour) {
-        steps.push({ step: 5, text: `⚠️ 走廊不连通，需绕行` });
+      // 检查是否需要换乘
+      if (needsTransfer) {
+        // 没有直达电梯，需要换乘
+        steps.push({ step: 2, text: `步行至 ${optimalElevator} 电梯` });
+        steps.push({ step: 3, text: `⚠️ 目标楼层走廊不连通，无法直达` });
+        steps.push({ step: 4, text: `💡 ${transferInfo || '建议换乘其他电梯'}` });
+        pathPoints.push([startX, startY]);
         pathPoints.push([endX, endY]);
       } else {
-        path.slice(1).forEach(p => pathPoints.push([p.x, p.y]));
+        // 到电梯
+        steps.push({ step: 2, text: `步行至 ${optimalElevator} 电梯` });
+        steps.push({ step: 3, text: `乘坐 ${optimalElevator} 电梯到 ${targetFloor} 楼` });
+        steps.push({ step: 4, text: `从${optimalElevator}电梯出来` });
         
-        if (startCorridor === targetCorridor) {
-          steps.push({ step: 5, text: `沿${getCorridorName(startCorridor)}走廊直行` });
+        // 获取电梯位置
+        const targetElevatorRoom = targetRooms.find(r => r.id === `${optimalElevator}-elevator`);
+        if (targetElevatorRoom?.pathNode) {
+          startX = targetElevatorRoom.pathNode.x;
+          startY = targetElevatorRoom.pathNode.y;
+          startCorridor = targetElevatorRoom.corridor || 'north';
+        }
+        
+        // 使用新的路径算法
+        const { path: path3, needsDetour: needsDetour3, detourInfo: detourInfo3 } = findShortestPath(
+          { x: startX, y: startY, corridor: startCorridor },
+          { x: endX, y: endY, corridor: targetCorridor },
+          targetFloor
+        );
+        
+        pathPoints.push([startX, startY]);
+        
+        if (needsDetour3) {
+          steps.push({ step: 5, text: `⚠️ ${detourInfo3 || '走廊不连通，需绕行'}` });
+          steps.push({ step: 6, text: `建议：返回电梯 → 下到5楼 → 经走廊到达对应区域 → 再上楼返回${targetFloor}楼` });
+          pathPoints.push([endX, endY]);
         } else {
-          steps.push({ step: 5, text: `沿走廊向目标方向行走` });
+          path3.slice(1).forEach(p => pathPoints.push([p.x, p.y]));
+          
+          if (startCorridor === targetCorridor || 
+              (startCorridor.includes('north') && targetCorridor.includes('north')) ||
+              (startCorridor.includes('south') && targetCorridor.includes('south'))) {
+            steps.push({ step: 5, text: `沿${getCorridorName(startCorridor)}走廊直行` });
+          } else {
+            steps.push({ step: 5, text: `沿走廊向目标方向行走` });
+          }
         }
       }
       steps.push({ step: steps.length + 1, text: `到达目标教室 ${targetRoom}` });
@@ -1601,34 +1926,59 @@ export default function Home() {
                   </div>
                   选择起点电梯
                 </label>
-                <div className="grid grid-cols-2 gap-3">
-                  {elevatorLocations.map((elevator) => (
+                {/* 电梯位置示意图 + 按钮布局 */}
+                <div className="flex justify-center px-14">
+                  <div className="relative p-2 bg-gray-50 rounded-xl inline-block">
+                    <img 
+                      src="/elevator-map.png" 
+                      alt="电梯位置示意图" 
+                      className="w-full max-w-[220px] mx-auto block"
+                    />
+                    {/* 左侧 - A按钮对准A区 */}
                     <button
-                      key={elevator.id}
-                      onClick={() => setStartElevator(elevator.id)}
-                      className={`p-4 rounded-xl border-2 transition-all ${
-                        startElevator === elevator.id
-                          ? 'border-green-500 bg-green-50'
-                          : 'border-gray-200 bg-white hover:border-green-300'
+                      onClick={() => setStartElevator('A')}
+                      className={`absolute left-[20%] top-[25%] -translate-y-1/2 -translate-x-full -ml-[24px] mt-[6px] w-10 h-8 rounded-lg border-2 flex items-center justify-center transition-all ${
+                        startElevator === 'A'
+                          ? 'border-green-500 bg-green-500 text-white'
+                          : 'border-gray-300 bg-white text-gray-600 hover:border-green-300'
                       }`}
                     >
-                      <div className="flex items-center gap-3">
-                        <div className={`w-10 h-10 rounded-lg flex items-center justify-center ${
-                          startElevator === elevator.id ? 'bg-green-500' : 'bg-gray-200'
-                        }`}>
-                          <span className={`text-sm font-bold ${startElevator === elevator.id ? 'text-white' : 'text-gray-600'}`}>
-                            {elevator.id}
-                          </span>
-                        </div>
-                        <div className="text-left">
-                          <p className={`font-medium ${startElevator === elevator.id ? 'text-green-700' : 'text-gray-700'}`}>
-                            {elevator.name}
-                          </p>
-                          <p className="text-xs text-gray-500">{elevator.position}</p>
-                        </div>
-                      </div>
+                      <span className="text-sm font-bold">A</span>
                     </button>
-                  ))}
+                    {/* 左侧 - B按钮对准B区 */}
+                    <button
+                      onClick={() => setStartElevator('B')}
+                      className={`absolute left-[20%] top-[65%] -translate-y-1/2 -translate-x-full -ml-[24px] w-10 h-8 rounded-lg border-2 flex items-center justify-center transition-all ${
+                        startElevator === 'B'
+                          ? 'border-green-500 bg-green-500 text-white'
+                          : 'border-gray-300 bg-white text-gray-600 hover:border-green-300'
+                      }`}
+                    >
+                      <span className="text-sm font-bold">B</span>
+                    </button>
+                    {/* 右侧 - C按钮对准C区 */}
+                    <button
+                      onClick={() => setStartElevator('C')}
+                      className={`absolute left-[70%] top-[25%] -translate-y-1/2 translate-x-full ml-2 mt-[6px] w-10 h-8 rounded-lg border-2 flex items-center justify-center transition-all ${
+                        startElevator === 'C'
+                          ? 'border-green-500 bg-green-500 text-white'
+                          : 'border-gray-300 bg-white text-gray-600 hover:border-green-300'
+                      }`}
+                    >
+                      <span className="text-sm font-bold">C</span>
+                    </button>
+                    {/* 右侧 - D按钮对准D区 */}
+                    <button
+                      onClick={() => setStartElevator('D')}
+                      className={`absolute left-[70%] top-[65%] -translate-y-1/2 translate-x-full ml-2 w-10 h-8 rounded-lg border-2 flex items-center justify-center transition-all ${
+                        startElevator === 'D'
+                          ? 'border-green-500 bg-green-500 text-white'
+                          : 'border-gray-300 bg-white text-gray-600 hover:border-green-300'
+                      }`}
+                    >
+                      <span className="text-sm font-bold">D</span>
+                    </button>
+                  </div>
                 </div>
               </div>
             ) : (
@@ -1702,7 +2052,6 @@ export default function Home() {
               </div>
             </div>
 
-
             {/* 确认按钮 */}
             <button
               onClick={handleConfirm}
@@ -1749,12 +2098,8 @@ export default function Home() {
                 </div>
               </div>
               <div className="mt-3 flex items-center gap-2 text-sm opacity-90">
-                {startType === 'elevator' ? (
-                  <>
-                    <span>从 {startElevator} 电梯出发</span>
-                    <span>•</span>
-                    <span>预计2分钟到达</span>
-                  </>
+               {startType === 'elevator' ? (
+                  <span>从 {startElevator} 电梯出发</span>
                 ) : (
                   <>
                     <span>从 {startRoom}（{startFloor}楼）出发</span>
@@ -1765,26 +2110,6 @@ export default function Home() {
               </div>
             </div>
 
-            {/* 最优电梯指引卡片 - 跨楼层时显示 */}
-            {startFloor !== targetFloor && navigation.optimalElevator && (
-              <div className="bg-gradient-to-r from-amber-50 to-orange-50 rounded-2xl p-4 border border-amber-200">
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 bg-amber-500 rounded-xl flex items-center justify-center">
-                    <span className="text-white font-bold text-lg">{navigation.optimalElevator}</span>
-                  </div>
-                  <div>
-                    <p className="font-medium text-amber-800">推荐乘坐 {navigation.optimalElevator} 电梯</p>
-                    <p className="text-sm text-amber-600">
-                      按 <span className="font-bold text-amber-800">{targetFloor}</span> 楼按钮
-                    </p>
-                  </div>
-                  <div className="ml-auto">
-                    <ArrowUpRight className="w-5 h-5 text-amber-500" />
-                  </div>
-                </div>
-              </div>
-            )}
-            
             {/* 同层导航提示 */}
             {navigation.isSameFloor && (
               <div className="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-2xl p-4 border border-blue-200">
@@ -1800,8 +2125,8 @@ export default function Home() {
               </div>
             )}
 
-            {/* 双地图显示区域 - 跨楼层导航 */}
-            {!navigation.isSameFloor && (
+            {/* 双地图显示区域 - 跨楼层导航（仅起点为教室时） */}
+            {startType === 'room' && !navigation.isSameFloor && (
               <div className="space-y-3">
                 {/* 地图切换标签 */}
                 <div className="flex gap-2">
@@ -1851,11 +2176,14 @@ export default function Home() {
               </div>
             )}
             
-            {/* 单地图显示 - 同层导航 */}
-            {navigation.isSameFloor && (
+            {/* 单地图显示 - 同层导航 或 起点为电梯口 */}
+            {(navigation.isSameFloor || startType === 'elevator') && (
               <div
                 className="relative bg-white rounded-2xl border-2 border-blue-100 overflow-hidden shadow-sm cursor-pointer hover:border-blue-300 transition-all"
-                onClick={() => setPageState('map-zoom')}
+               onClick={() => {
+                  setActiveMapFloor(targetFloor);
+                  setPageState('map-zoom');
+                }}
               >
                 {renderFloorPlan()}
                 <div className="absolute bottom-3 right-3 flex items-center gap-1 bg-white/95 px-3 py-1.5 rounded-full shadow-sm text-xs text-blue-600 font-medium">
@@ -1908,7 +2236,10 @@ export default function Home() {
           >
             <div className="flex items-center justify-between mb-4">
               <h3 className="text-lg font-bold text-blue-900">
-                {navigation.isSameFloor ? `${targetFloor}层 平面图` : `${activeMapFloor ?? targetFloor}层 平面图`}
+                {navigation.isSameFloor 
+                  ? `${targetFloor}层 平面图` 
+                  : `${startType === 'elevator' ? targetFloor : (activeMapFloor ?? targetFloor)}层 平面图`
+                }
               </h3>
               <button
                 onClick={() => setPageState('navigation')}
@@ -1918,7 +2249,10 @@ export default function Home() {
               </button>
             </div>
             <div className="border-2 border-blue-100 rounded-xl overflow-auto max-h-[70vh]">
-              {navigation.isSameFloor ? renderFloorPlan(true) : renderFloorPlan(true, activeMapFloor ?? startFloor)}
+             {navigation.isSameFloor 
+                ? renderFloorPlan(true) 
+                : renderFloorPlan(true, startType === 'elevator' ? targetFloor : (activeMapFloor ?? targetFloor))
+              }
             </div>
             <p className="text-xs text-gray-500 text-center mt-4">点击空白区域返回导航</p>
           </div>
@@ -2002,10 +2336,10 @@ export default function Home() {
           className="fixed inset-0 bg-black/50 flex items-end z-50"
           onClick={() => setShowTargetFloorSelect(false)}
         >
-        <div className="bg-white rounded-t-3xl w-full p-6 animate-slide-up"
-  onClick={(e) => e.stopPropagation()}
->
-          
+          <div
+            className="bg-white rounded-t-3xl w-full p-6 animate-slide-up"
+            onClick={(e) => e.stopPropagation()}
+          >
             <div className="w-12 h-1 bg-gray-300 rounded-full mx-auto mb-4" />
             <h3 className="text-lg font-bold text-gray-800 mb-4">选择目标楼层</h3>
             <div className="grid grid-cols-4 gap-3">
